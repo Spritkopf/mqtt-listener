@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 print(args.config_file)    
 try:
-    config = configparser.ConfigParser(converters={'list': lambda x: [i.strip() for i in x.split(',')]})
+    config = configparser.ConfigParser()
     config.read(args.config_file)
 
     l = MqttSWitch(config['CONFIG']['broker_url'], 
