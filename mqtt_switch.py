@@ -4,7 +4,7 @@ class MqttSWitch(object):
 
     
     
-    def __init__(self, host, cmd_topic, state_topic, available_topic, on_callback, off_callback, port=1883, client_id=None, payload_on="ON", payload_off="OFF", payload_available="online", payload_not_available="offline"):
+    def __init__(self, host, cmd_topic, state_topic, available_topic, on_callback, off_callback, port=1883, client_id=None, payload_on="ON", payload_off="OFF", payload_available="online", payload_not_available="offline", initial_state=None):
 
         self.client = mqtt.Client(client_id=client_id)
 
@@ -22,6 +22,9 @@ class MqttSWitch(object):
         self._payload_off = payload_off
 
         self.client.publish(available_topic, payload_available, retain=True)
+
+        if initial_state is not None:
+            self.client.publish(state_topic, initial_state)
         
 
     def start_listening_thread(self):
